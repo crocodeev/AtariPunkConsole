@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>PWM-TEST</title>
+    <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  </head>
+  <body class="container">
+      <div class="row">
+        <h1>PULSE WIDTH MODULATION</h1>
+      </div>
+      <div class="row">
+        <canvas id="oscilloscope" width="600" height="300"></canvas>
+      </div>
+      <div class="row">
+        <div class="col s4">
+          <a class="waves-effect waves-light btn-large" id="play">PLAY</a>
+        </div>
+        <div class="col s4">
+          <a class="waves-effect waves-light btn-large" id="stop">STOP</a>
+        </div>
+        <div class="col s4">
+          <form action="#">
+            <p class="range-field">
+              <input id="slider" type="range" id="test5" min="200" max="500" />
+            </p>
+          </form>
+        </div>
+        <div class="row">
+          <div class="col s4">
+            <p class="range-field">
+              <input id="pwm" type="range" id="pwm" min="1" max="100" />
+            </p>
+          </div>
+        </div>
+      </div>
+    <script src="./javascript/synt.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </body>
+</html>
