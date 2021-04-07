@@ -1,3 +1,5 @@
+import oscilloscope from './oscilloscope.js'
+
 
 class CUSTOMOSCNODE extends AudioWorkletNode {
     constructor(context) {
@@ -5,16 +7,19 @@ class CUSTOMOSCNODE extends AudioWorkletNode {
     }
   }
 
-let customoscnode  
+let canvas   = document.getElementById("oscilloscope");
+let customoscnode 
 
 window.onload= () => {
     let accept = confirm("Start audio context?");
     if(accept){
-      ac = new (
+      window.ac = new (
         window.AudioContext||
         window.webkitAudioContext||
         function() { throw "Browser does not support Web Audio API";}
       )();
+
+      window.analyser = oscilloscope(ac, canvas)
 
       ac.audioWorklet.addModule('./javascript/audioWorkletProcessor.js')
       .then(() => {
@@ -28,15 +33,15 @@ window.onload= () => {
       }
     }
   
-let context = new AudioContext();
-
 
 let playBtn = document.getElementById('customstart');
 
 playBtn.addEventListener('click', () => {
 
   console.log(customoscnode);
-  customoscnode.connect(ac.destination);
+  customoscnode.connect(analyser);
+  analyser.connect(ac.destination);
+  //customoscnode.connect(ac.destination);
   //https://stackoverflow.com/questions/57921909/how-to-code-an-oscillator-using-audioworklet 
 
 });

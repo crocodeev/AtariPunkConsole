@@ -9,7 +9,7 @@ class CUSTOMOSC extends AudioWorkletProcessor {
     d = 0 //??
     */
     // почему статический метод, вместо просто get?
-    /*
+    
     static get parameterDescriptors() {
         return [{
           name: 'frequency',
@@ -19,7 +19,7 @@ class CUSTOMOSC extends AudioWorkletProcessor {
           automationRate: "a-rate" // чем отличается a от к
         }];
       }
-    */
+    
 
     //inputs - несколько входов, каждый может иметь несколько каналов
     //outputs - несколько выходов, каждый может иметь несколько каналов
@@ -51,7 +51,7 @@ class CUSTOMOSC extends AudioWorkletProcessor {
             const vibrato = 0 // Math.sin(globTime * 2 * Math.PI * 7) * 2
 
             // 
-            channel[i] = Math.sin(2*Math.PI * frequency[0] * (currentTime + i / context.sampleRate))
+            channel[i] = Math.sin(2*Math.PI * freqs[0] * (currentTime + i / sampleRate))
 
           }
         })

@@ -1,4 +1,4 @@
-let  oscilloscope = function (context, element, params={
+const oscilloscope = function (context, element, params={
   "graphic":{
     "strokeColor":"rgb(255,255,0)",
     "strokeWidth":5,
@@ -79,4 +79,4 @@ let  oscilloscope = function (context, element, params={
     return analyser;
 }
 
-export { oscilloscope }
+export default oscilloscope
