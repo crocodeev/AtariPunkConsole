@@ -1,7 +1,11 @@
+const saw = value => value - Math.floor(value);
+
+
 class CUSTOMOSC extends AudioWorkletProcessor {
 
     constructor(){
         super();
+        this.counter = 0;
     }   
 
     /*
@@ -40,7 +44,6 @@ class CUSTOMOSC extends AudioWorkletProcessor {
 
             // изменилось значение частоты или неt
             const freq = freqs.length > 1 ? freqs[i] : freqs[0]
-          
             //https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletGlobalScope - о текущем времени и сэмрл рйете
             //https://github.com/GoogleChromeLabs/web-audio-samples/issues/188
             const globTime = currentTime + i / sampleRate
@@ -49,9 +52,13 @@ class CUSTOMOSC extends AudioWorkletProcessor {
             this.prevFreq = freq 
             const time = globTime * freq + this.d
             const vibrato = 0 // Math.sin(globTime * 2 * Math.PI * 7) * 2
-
-            // 
+            // for sinus wave
+            //f(x) = A sin (ωt + φ)
+    
+            
             channel[i] = Math.sin(2*Math.PI * freqs[0] * (currentTime + i / sampleRate))
+    
+            
 
           }
         })

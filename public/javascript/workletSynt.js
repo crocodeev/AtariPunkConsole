@@ -10,8 +10,24 @@ class CUSTOMOSCNODE extends AudioWorkletNode {
 let canvas   = document.getElementById("oscilloscope");
 let customoscnode 
 
-window.onload= () => {
+window.ac = new (
+  window.AudioContext||
+  window.webkitAudioContext||
+  function() { throw "Browser does not support Web Audio API";}
+)();
+
+window.analyser = oscilloscope(ac, canvas)
+
+ac.audioWorklet.addModule('./javascript/audioWorkletProcessor.js')
+.then(() => {
+  customoscnode = new CUSTOMOSCNODE(ac);
+})
+.catch(error => console.log(error))
+
+
+/*window.onload= () => {
     let accept = confirm("Start audio context?");
+
     if(accept){
       window.ac = new (
         window.AudioContext||
@@ -31,17 +47,20 @@ window.onload= () => {
     }else{
           alert("No context - no noise");
       }
-    }
+    }*/
   
 
 let playBtn = document.getElementById('customstart');
 
 playBtn.addEventListener('click', () => {
 
+  if(ac.state === 'suspended'){
+    ac.resume()
+  }
+
   console.log(customoscnode);
   customoscnode.connect(analyser);
-  analyser.connect(ac.destination);
-  //customoscnode.connect(ac.destination);
+  customoscnode.connect(ac.destination);
   //https://stackoverflow.com/questions/57921909/how-to-code-an-oscillator-using-audioworklet 
 
 });
@@ -51,6 +70,5 @@ playBtn.addEventListener('click', () => {
 let stopBtn = document.getElementById('customstop');
 
 stopBtn.addEventListener('click', () => {
-  pulseOsc.stop();
-  pulseOsc.disconnect();
+  customoscnode.disconnect(ac.destination);
 });
