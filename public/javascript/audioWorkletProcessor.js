@@ -6,6 +6,7 @@ class CUSTOMOSC extends AudioWorkletProcessor {
     constructor(){
         super();
         this.counter = 0;
+        this.fr = 480;
     }   
 
     /*
@@ -25,41 +26,25 @@ class CUSTOMOSC extends AudioWorkletProcessor {
       }
     
 
-    //inputs - несколько входов, каждый может иметь несколько каналов
-    //outputs - несколько выходов, каждый может иметь несколько каналов
-    //channel - свойства, какие?
-    // 128 сэмплов со значение от -1 до 1
-    //parameters - кастомные или по уомлчанию? 
     //https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletProcessor/process 
 
     process (inputs, outputs, parameters) {
-        //т.к. у нас генератор, входы не нужны
-        //берём первый выход      
+            
         const output = outputs[0] 
-        //устанавливаем частоту
         const freqs = parameters.frequency
+        
         //для каждого канала
         output.forEach(channel => {
+
           for (let i = 0; i < channel.length; i++) {
 
-            // изменилось значение частоты или неt
-            const freq = freqs.length > 1 ? freqs[i] : freqs[0]
-            //https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletGlobalScope - о текущем времени и сэмрл рйете
-            //https://github.com/GoogleChromeLabs/web-audio-samples/issues/188
-            const globTime = currentTime + i / sampleRate
-            //переменная, вероятно нужна для сдвига
-            this.d += globTime * (this.prevFreq - freq)
-            this.prevFreq = freq 
-            const time = globTime * freq + this.d
-            const vibrato = 0 // Math.sin(globTime * 2 * Math.PI * 7) * 2
-            // for sinus wave
-            //f(x) = A sin (ωt + φ)
-    
-            
-            channel[i] = Math.sin(2*Math.PI * freqs[0] * (currentTime + i / sampleRate))
-    
-            
+            channel[i] = this.counter < this.fr/2 ? 1 : -1;
 
+            if(this.counter < this.fr){
+              this.counter++
+            }else{
+              this.counter = 0
+            }
           }
         })
         //продолжает выполнение процесса

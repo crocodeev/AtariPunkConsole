@@ -1,0 +1,12 @@
+1. входы
+    input1
+        channel 1
+        channel 2
+    input2
+2. выходы
+
+render quantum
+block of audio - 128 samples
+sample = Адщфешт
+
+от чего зависит кол-во каналов? от ааудиоконтекста?
